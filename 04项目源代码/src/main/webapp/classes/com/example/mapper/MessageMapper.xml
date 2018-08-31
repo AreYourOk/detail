@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.MessageMapper">
+	
+	<resultMap id="MessageResultMap" type="model.Message">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="email" property="email" />
+		<result column="subject" property="subject" />
+		<result column="message" property="message" />
+	</resultMap>
+
+	<insert id="addOneMessage" parameterType="model.Message">
+		insert into messageinfo values(null,#{name},#{email},#{subject},#{message})
+	</insert>
+	
+	<select id="findAllMessage" resultMap="MessageResultMap">
+		select * from messageinfo
+	</select>
+	
+	<select id="findOneMessagebyid" resultMap="MessageResultMap">
+		select * from messageinfo where id=#{0}
+	</select>
+</mapper>

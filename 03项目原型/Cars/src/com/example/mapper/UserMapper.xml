@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.UserMapper">
+	
+	<resultMap id="UserResultMap" type="model.User">
+		<id column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="address" property="address" />
+		<result column="limition" property="limition" />
+	</resultMap>
+	
+	<select id="findOneUser" resultMap="UserResultMap" >
+		select * from userinfo where username=#{0} and password=#{1}
+	</select>
+	
+	<select id="findAllUser" resultMap="UserResultMap" >
+		select * from userinfo where limition=0
+	</select>
+	
+	<select id="checkOneUser" resultMap="UserResultMap" >
+		select * from userinfo where username=#{0}
+	</select>
+	
+	<insert id="insertOneUser" parameterType="model.User" useGeneratedKeys="true" keyProperty="id">
+		insert into userinfo values(null,#{username},#{password},#{name},#{phone},#{address},0)
+	</insert>
+	
+	<delete id="deleteOneUser" parameterType="int">
+		delete from userinfo where id=#{0}
+	</delete>
+	
+	<update id="updateOneUser" parameterType="model.User">
+		update userinfo set name=#{name},phone=#{phone},address=#{address} where id=#{id}
+	</update>
+	
+	<update id="updatePwdbyid" parameterType="model.User">
+		update userinfo set password=#{1} where id=#{0}
+	</update>
+</mapper>

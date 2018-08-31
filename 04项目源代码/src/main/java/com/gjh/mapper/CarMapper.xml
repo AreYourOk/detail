@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gjh.mapper.CarMapper">
+	
+	<resultMap id="CarResultMap" type="com.gjh.model.Car">
+		<id column="id" property="id" />
+		<result column="modal" property="modal" />
+		<result column="registeryear" property="registeryear" />
+		<result column="mileage" property="mileage" />
+		<result column="power" property="power" />
+		<result column="seat" property="seat" />
+		<result column="color" property="color" />
+		<result column="airbags" property="airbags" />
+		<result column="damage" property="damage" />
+		<result column="picture" property="picture" />
+		<result column="price" property="price" />
+		<result column="area" property="area" />
+		
+	</resultMap>
+	
+	<select id="findAllCar" resultMap="CarResultMap">
+		select * from carinfo where stock>0
+	</select>
+	
+	<select id="findAllCarfordamin" resultMap="CarResultMap">
+		select * from carinfo
+	</select>
+	
+	<select id="findSixCar" resultMap="CarResultMap">
+		select * from carinfo where stock>0 order by saled desc limit 6
+	</select>
+	
+	<select id="findOneCarbyid" resultMap="CarResultMap">
+		select * from carinfo where id=#{arg0} and stock>0
+	</select>
+	
+	<select id="findAllCarbymodal" resultMap="CarResultMap">
+		select * from carinfo where modal=#{arg0} and stock>0
+	</select>
+	
+	<select id="findAllCarbyprice" resultMap="CarResultMap">
+		select * from carinfo where price between #{arg0} and #{arg1} and stock>0
+	</select>
+	
+	<select id="findAllCarbymxprice" resultMap="CarResultMap">
+		select * from carinfo where price > 100000 and stock>0
+	</select>
+	
+	<select id="findAllCarbymxboth" resultMap="CarResultMap">
+		select * from carinfo where price > 100000 and modal=#{arg0} and stock>0
+	</select>
+	
+	<select id="findAllCarbyboth" resultMap="CarResultMap">
+		select * from carinfo where modal=#{arg0} and price between #{arg1} and #{arg2} and stock>0
+	</select>
+	
+	<update id="updOneCar" parameterType="com.gjh.model.Car">
+		update carinfo set modal=#{modal},registeryear=#{registeryear},mileage=#{mileage},
+		power=#{power},seat=#{seat},color=#{color},airbags=#{airbags},damage=#{damage},
+		picture=#{picture},price=#{price},area=#{area},stock=#{stock} where id=#{id}
+	</update>
+	
+	<delete id="delOneCar" parameterType="int">
+		delete from carinfo where id=#{arg0}
+	</delete>
+	
+	<insert id="addOneCar" parameterType="com.gjh.model.Car">
+		insert into carinfo values(null,#{modal},#{registeryear},#{mileage},#{power},
+		#{seat},#{color},#{airbags},#{damage},#{picture},#{price},#{area},#{stock},#{saled})
+	</insert>
+	
+	<update id="desstock" parameterType="int">
+		update carinfo set stock=stock-1,saled=saled+1 where id=#{arg0}
+	</update>
+	
+</mapper>

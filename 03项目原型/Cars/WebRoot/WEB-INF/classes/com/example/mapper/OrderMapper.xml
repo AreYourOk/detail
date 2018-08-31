@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.OrderMapper">
+	
+	<resultMap id="OrderResultMap" type="model.Order">
+		<id column="id" property="id" />
+		<result column="userid" property="userid" />
+		<result column="username" property="username" />
+		<result column="carid" property="carid" />
+		<result column="carmodal" property="carmodal" />	
+		<result column="number" property="number" />	
+		<result column="price" property="price" />	
+		<result column="station" property="station" />	
+	</resultMap>
+	
+	<select id="findAllOrders1" resultMap="OrderResultMap">
+		select * from orderinfo where station=1
+	</select>
+	
+	<select id="findAllOrderbyuserids0" resultMap="OrderResultMap">
+		select * from orderinfo where userid=#{0} and station=0
+	</select>
+	
+	<select id="findAllOrderbyuserids1" resultMap="OrderResultMap">
+		select * from orderinfo where userid=#{0} and station=1
+	</select>
+	
+	<select id="findAllOrderbybothids0" resultMap="OrderResultMap">
+		select * from orderinfo where userid=#{0} and carid=#{1} and station=0
+	</select>
+	
+	<insert id="addOrder" parameterType="model.Order">
+		insert into orderinfo values(null,#{userid},#{username},#{carid},#{carmodal},1,#{price},#{station})
+	</insert>
+	
+	<update id="dealOneOrder" parameterType="int">
+		update orderinfo set station=1 where id=#{0}
+	</update>
+	
+	<update id="dealAllOrder" parameterType="int">
+		update orderinfo set station=1 where userid=#{0}
+	</update>
+	
+	<update id="updOrder" parameterType="model.Order">
+		update orderinfo set number=#{number},price=#{price},station=#{station} where id=#{id}
+	</update>
+
+	
+</mapper>
